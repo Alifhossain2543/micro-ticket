@@ -1,0 +1,31 @@
+apiVersion : extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/nginx.class: nginx
+    nginx.ingress.kubernetes.io/use-regex : 'true'
+spec:
+  rules:
+  - host: ticket.dev
+    http:
+      paths:
+        - path: /api/users/?(.*)
+          backend:
+            serviceName: auth-srv
+            servicePort : 4000
+
+        - path: /api/tickets/?(.*)
+          backend:
+            serviceName: tickets-srv
+            servicePort : 4001
+
+        - path: /api/orders/?(.*)
+          backend:
+            serviceName: orders-srv
+            servicePort : 4002    
+            
+        - path: /
+          backend:
+            serviceName: client-srv
+            servicePort : 3000 

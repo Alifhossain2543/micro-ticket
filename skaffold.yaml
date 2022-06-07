@@ -1,0 +1,44 @@
+apiVersion: skaffold/v2alpha3
+kind : Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: alifhossain/auth
+      context: auth
+      docker :
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "**/**"
+    - image: alifhossain/tickets
+      context: tickets
+      docker :
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "**/**"
+    - image: alifhossain/ticketclient
+      context: client
+      docker :
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "**/**"
+    - image: alifhossain/orders
+      context: orders
+      docker :
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: "**/**"
+ 
+ 
